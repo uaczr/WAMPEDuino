@@ -29,8 +29,8 @@ public:
     mpack_node_t node;
     MPNode(mpack_node_t node):node(node){};
 
-    MPNode operator[](const uint16_t  &index);
-    MPNode at(const uint16_t   &index, bool ignore_errors=false);
+    MPNode operator[](const uint32_t  &index);
+    MPNode at(const uint32_t   &index, bool ignore_errors=false);
     mpack_error_t getError() {
         return node.tree->error;
     }

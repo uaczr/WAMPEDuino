@@ -40,7 +40,7 @@ private:
 	WP_Status sendSubcribeMsg(IWampTopicPtr topic);
 	WP_Status sendUnsubscribeMsg(IWampTopicPtr topic);
 
-	void event(WStype_t type, uint8_t * payload, size_t lenght);
+	IWampTopicPtr findTopicBySubscriptionId(uint64_t subscriptionID);
 
 	typedef enum wampMessage {
 	    WAMP_MSG_HELLO =1,
@@ -60,6 +60,7 @@ private:
 
 	typedef enum wampState {
 		WAMP_WS_Not_Connected,
+		WAMP_WS_Connected,
 		WAMP_Not_Connected,
 		WAMP_Connecting,
 		WAMP_Connected,

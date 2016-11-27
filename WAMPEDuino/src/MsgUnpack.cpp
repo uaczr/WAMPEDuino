@@ -115,11 +115,11 @@ std::string MPNode::getJson() const {
     return s.str();
 }
 
-MPNode MPNode::operator[](const uint16_t  &index) {
+MPNode MPNode::operator[](const uint32_t  &index) {
     return at(index);
 }
 
-MPNode MPNode::at(const uint16_t  &index, bool ignore_errors) {
+MPNode MPNode::at(const uint32_t  &index, bool ignore_errors) {
 
     if (mpack_node_error(node) != mpack_ok)
         return MPNode(mpack_tree_nil_node(node.tree));

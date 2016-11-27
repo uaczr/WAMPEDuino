@@ -23,15 +23,27 @@ typedef char* uri;
 
 
 class IWampTopic {
+public:
+	typedef void (*topicEvent)();
 protected:
 	string topic;
+	uint64_t subscription_id;
+	topicEvent event;
 public:
-	IWampTopic(string topic){
+
+	IWampTopic(string topic, topicEvent event){
 		this->topic = topic;
+		this->subscription_id = 0;
+		this->event = event;
 	}
 	virtual ~IWampTopic() = 0;
 	virtual WP_Status serialize(MsgPack &msgPack) = 0;
-	virtual WP_Status deserialize(MPNode &node) = 0;
+	virtual WP_Status deserialize(MPNode &args, MPNode &argskw) = 0;
+	void calculateId();
+	uint64_t getId();
+	void onEvent(){
+		event();
+	};
 };
 typedef IWampTopic* IWampTopicPtr;
 
@@ -41,17 +53,26 @@ protected:
 	 * Refreshindicator
 	 */
 	bool fresh;
-	uint64_t subscription_id;
+
 	/**
 	 * Data
 	 */
 	T data;
+	/**
+	 * @brief Serializes a The Topic for Messaging
+	 * @param [in, out] msgPack		MSG Pack packer object
+	 */
+	WP_Status _serialize(MsgPack &msgPack);
+	/**
+	 * @brief Deserializes a message and refreshes data
+	 * @param [in,out] msgUnpack	MSG Pack unpacker object
+	 */
+	WP_Status _deserialize(MPNode &args, MPNode &argskw);
 public:
 	WampTopic();
-	WampTopic(string topic, T data):IWampTopic(topic){
+	WampTopic(string topic, T data, topicEvent event):IWampTopic(topic, event){
 		this->data = data;
 		this->fresh = true;
-		this->subscription_id = 0;
 	}
 	virtual ~WampTopic();
 	/**
@@ -63,7 +84,7 @@ public:
 	 * @brief Deserializes a message and refreshes data
 	 * @param [in,out] msgUnpack	MSG Pack unpacker object
 	 */
-	WP_Status deserialize(MPNode &node);
+	WP_Status deserialize(MPNode &args, MPNode &argskw);
 
 	/**
 	 * @brief Sets the Topic data
@@ -80,18 +101,17 @@ public:
 	 * @return				Bool, true = fresh, false = !fresh
 	 */
 	bool isFresh();
-	void calculateId();
-	uint32_t getId();
+
 
 };
-template <> WP_Status WampTopic<int>::serialize(MsgPack &msgPack);
-template <> WP_Status WampTopic<int>::deserialize(MPNode &node);
+template <> WP_Status WampTopic<int32_t>::_serialize(MsgPack &msgPack);
+template <> WP_Status WampTopic<int32_t>::_deserialize(MPNode &args, MPNode &argskw);
 
-template <> WP_Status WampTopic<bool>::serialize(MsgPack &msgPack);
-template <> WP_Status WampTopic<bool>::deserialize(MPNode &node);
+template <> WP_Status WampTopic<bool>::_serialize(MsgPack &msgPack);
+template <> WP_Status WampTopic<bool>::_deserialize(MPNode &args, MPNode &argskw);
 
-template <> WP_Status WampTopic<string>::serialize(MsgPack &msgPack);
-template <> WP_Status WampTopic<string>::deserialize(MPNode &node);
+template <> WP_Status WampTopic<string>::_serialize(MsgPack &msgPack);
+template <> WP_Status WampTopic<string>::_deserialize(MPNode &args, MPNode &argskw);
 
 
 #endif /* INCLUDE_WAMPTOPIC_H_ */
