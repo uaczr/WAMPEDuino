@@ -9,8 +9,9 @@
 
 #ifndef WAMPEDUINO_H_
 #define WAMPEDUINO_H_
-#include <string>
-#include <vector>
+#define USE_SERIAL Serial
+#include <string.h>
+#include "Arduino.h"
 #include "WP_Status.h"
 #include "WampTopic.h"
 #include "WebSockets.h"
@@ -24,14 +25,14 @@ using namespace std;
 
 class WAMPEDuino {
 private:
-	typedef void (*WAMPEDuinoEvent)(WStype_t type, uint8_t * payload, size_t lenght);
+	typedef void (*WAMPEDuinoEvent)();
+	WAMPEDuinoEvent onWebSocketConnected;
 	WebSocketsClient *client;
 	uint32_t requestCount;
 	MsgPack mp;
-	string host;
+	const char* host;
 	uint32_t port;
-	vector<IWampTopicPtr> topics;
-	WP_Status sendHelloMsg(string realm);
+	WP_Status sendHelloMsg(char* realm);
 	WP_Status sendAbortMsg();
 	WP_Status sendGoodbyeMsg();
 	WP_Status sendErrorMsg();
@@ -40,7 +41,7 @@ private:
 	WP_Status sendSubcribeMsg(IWampTopicPtr topic);
 	WP_Status sendUnsubscribeMsg(IWampTopicPtr topic);
 
-	IWampTopicPtr findTopicBySubscriptionId(uint64_t subscriptionID);
+	//IWampTopicPtr findTopicBySubscriptionId(uint64_t subscriptionID);
 
 	typedef enum wampMessage {
 	    WAMP_MSG_HELLO =1,
@@ -70,15 +71,21 @@ private:
 	wampState state;
 
 public:
-	WAMPEDuino(WebSocketsClient *client, string URL, int32_t port);
+	WAMPEDuino();
 	virtual ~WAMPEDuino();
 
-	WP_Status begin(string realm);
+	WP_Status begin(WebSocketsClient *client, const char* host, int32_t port, WAMPEDuinoEvent onWebSocketConnected);
+	WP_Status loop();
+
+	WP_Status connect(char* realm);
 	WP_Status subscribe(IWampTopicPtr topic);
 	WP_Status publish(IWampTopicPtr topic);
 	WP_Status webSocketEventHandler(WStype_t type, uint8_t * payload, size_t lenght);
 
 	WP_Status decodeMessage(uint8_t * payload, size_t lenght);
+
+	static void onEvent(WStype_t type, uint8_t * payload, size_t length);
+	static WAMPEDuino* object;
 };
 
 #endif /* WAMPEDUINO_H_ */
