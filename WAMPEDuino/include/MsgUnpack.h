@@ -15,7 +15,7 @@
 #ifndef WAMP_MBED_MSGUNPACK_H
 #define WAMP_MBED_MSGUNPACK_H
 
-
+#include "Arduino.h"
 #include <stddef.h>
 #include <stdint.h>
 #include "mpack-node.h"

@@ -53,7 +53,7 @@
  /home/christoph/Programme/eclipse/arduinoPlugin/packages/esp8266/hardware/esp8266/2.2.0/libraries/ESP8266WiFi/src/ESP8266WiFi.h \
  /home/christoph/git/WAMPEDuino/WAMPEDuino/include/WAMPEDuino.h \
  /home/christoph/git/WAMPEDuino/WAMPEDuino/include/WP_Status.h \
- /home/christoph/git/WAMPEDuino/WAMPEDuino/include/WampTopic.h \
+ /home/christoph/git/WAMPEDuino/WAMPEDuino/include/ITopic.h \
  /home/christoph/git/WAMPEDuino/WAMPEDuino/include/MsgPack.h \
  /home/christoph/git/WAMPEDuino/WAMPEDuino/include/mpack.h \
  /home/christoph/git/WAMPEDuino/WAMPEDuino/include/mpack-common.h \
@@ -67,6 +67,8 @@
  /home/christoph/Programme/eclipse/arduinoPlugin/libraries/WebSockets/2.0.2/src/WebSockets.h \
  /home/christoph/Programme/eclipse/arduinoPlugin/libraries/WebSockets/2.0.2/src/WebSocketsClient.h \
  /home/christoph/Programme/eclipse/arduinoPlugin/libraries/WebSockets/2.0.2/src/WebSockets.h \
+ /home/christoph/git/WAMPEDuino/WAMPEDuino/include/IntegerTopic.h \
+ /home/christoph/git/WAMPEDuino/WAMPEDuino/include/ITopic.h \
  /home/christoph/Programme/eclipse/arduinoPlugin/packages/esp8266/hardware/esp8266/2.2.0/libraries/Hash/src/Hash.h \
  ../WAMPEDuino.ino
 
@@ -178,7 +180,7 @@
 
 /home/christoph/git/WAMPEDuino/WAMPEDuino/include/WP_Status.h:
 
-/home/christoph/git/WAMPEDuino/WAMPEDuino/include/WampTopic.h:
+/home/christoph/git/WAMPEDuino/WAMPEDuino/include/ITopic.h:
 
 /home/christoph/git/WAMPEDuino/WAMPEDuino/include/MsgPack.h:
 
@@ -205,6 +207,10 @@
 /home/christoph/Programme/eclipse/arduinoPlugin/libraries/WebSockets/2.0.2/src/WebSocketsClient.h:
 
 /home/christoph/Programme/eclipse/arduinoPlugin/libraries/WebSockets/2.0.2/src/WebSockets.h:
+
+/home/christoph/git/WAMPEDuino/WAMPEDuino/include/IntegerTopic.h:
+
+/home/christoph/git/WAMPEDuino/WAMPEDuino/include/ITopic.h:
 
 /home/christoph/Programme/eclipse/arduinoPlugin/packages/esp8266/hardware/esp8266/2.2.0/libraries/Hash/src/Hash.h:
 

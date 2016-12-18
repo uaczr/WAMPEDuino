@@ -13,7 +13,7 @@
 #include <string.h>
 #include "Arduino.h"
 #include "WP_Status.h"
-#include "WampTopic.h"
+#include "ITopic.h"
 #include "WebSockets.h"
 #include "WebSocketsClient.h"
 #include "MsgPack.h"
@@ -32,14 +32,9 @@ private:
 	MsgPack mp;
 	const char* host;
 	uint32_t port;
-	WP_Status sendHelloMsg(char* realm);
-	WP_Status sendAbortMsg();
-	WP_Status sendGoodbyeMsg();
-	WP_Status sendErrorMsg();
-
-	WP_Status sendPublishMsg(IWampTopicPtr topic);
-	WP_Status sendSubcribeMsg(IWampTopicPtr topic);
-	WP_Status sendUnsubscribeMsg(IWampTopicPtr topic);
+	TopicVector subscribedTopics;
+	TopicVector publishingTopics;
+	String realm;
 
 	//IWampTopicPtr findTopicBySubscriptionId(uint64_t subscriptionID);
 
@@ -59,27 +54,35 @@ private:
 	    WAMP_MSG_YIELD = 70
 	}wampMessage;
 
+	WP_Status sendHelloMsg();
+	WP_Status sendAbortMsg();
+	WP_Status sendGoodbyeMsg();
+	WP_Status sendErrorMsg();
+
+	WP_Status sendPublishMsg(ITopic*  topic);
+	WP_Status sendSubcribeMsg(ITopic*  topic);
+	WP_Status sendUnsubscribeMsg(ITopic*  topic);
 	typedef enum wampState {
 		WAMP_WS_Not_Connected,
+		WAMP_WS_Connecting,
 		WAMP_WS_Connected,
 		WAMP_Not_Connected,
 		WAMP_Connecting,
-		WAMP_Connected,
-		WAMP_Publishing,
-		WAMP_Subscribing
+		WAMP_Connected
 	}wampState;
 	wampState state;
 
+	void freshPub();
 public:
+
 	WAMPEDuino();
 	virtual ~WAMPEDuino();
 
-	WP_Status begin(WebSocketsClient *client, const char* host, int32_t port, WAMPEDuinoEvent onWebSocketConnected);
+	WP_Status begin(WebSocketsClient *client, const char* host, int32_t port, String realm, WAMPEDuinoEvent onWebSocketConnected);
 	WP_Status loop();
 
-	WP_Status connect(char* realm);
-	WP_Status subscribe(IWampTopicPtr topic);
-	WP_Status publish(IWampTopicPtr topic);
+	WP_Status subscribe(ITopic* topic);
+	WP_Status publish(ITopic* topic);
 	WP_Status webSocketEventHandler(WStype_t type, uint8_t * payload, size_t lenght);
 
 	WP_Status decodeMessage(uint8_t * payload, size_t lenght);

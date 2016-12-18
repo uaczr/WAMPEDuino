@@ -12,7 +12,7 @@
 //See the License for the specific language governing permissions and
 //        limitations under the License.
 
-
+#include "Arduino.h"
 #include <string>
 #include <sys/types.h>
 #include <utility>
@@ -29,8 +29,6 @@ class MsgPack {
 private:
     mpack_writer_t writer;
     char data[1024];
-
-    void _getJson(std::stringstream &s, mpack_reader_t &reader) const;
 
     void packAll() {
 
@@ -53,7 +51,7 @@ public:
         pack(i);
     }
 
-    MsgPack(std::string s):MsgPack() {
+    MsgPack(String s):MsgPack() {
         pack(s);
     }
 
@@ -63,7 +61,7 @@ public:
 
     void pack_array(uint32_t number);
     void pack_map(uint32_t n);
-    void pack(std::string s);
+    void pack(String s);
     void pack(int32_t i);
     void pack(int64_t i);
     void pack(uint32_t i);
@@ -72,7 +70,6 @@ public:
     void clear();
     size_t getUsedBuffer() const;
     char* getData() const;
-    std::string getJson() const;
 
     template <typename ...ITEMS>
     void packArray(ITEMS&&... items) {
@@ -87,9 +84,6 @@ public:
         return *this;
     }
 
-    friend std::ostream &operator << (std::ostream &os, const MsgPack &o) {
-        return os << o.getJson();
-    }
 
 
 };

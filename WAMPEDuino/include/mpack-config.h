@@ -57,7 +57,7 @@
  * reading/writing C files and makes debugging easier.
  */
 #ifndef MPACK_STDIO
-#define MPACK_STDIO 0
+#define MPACK_STDIO 1
 #endif
 
 

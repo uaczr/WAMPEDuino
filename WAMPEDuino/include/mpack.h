@@ -29,6 +29,7 @@
 #ifndef MPACK_H
 #define MPACK_H 1
 
+#include "Arduino.h"
 #include "mpack-common.h"
 #include "mpack-writer.h"
 #include "mpack-reader.h"
